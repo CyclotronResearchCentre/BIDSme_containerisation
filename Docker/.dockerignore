@@ -1,0 +1,45 @@
+# Fichiers et dossiers inutiles
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+.ipynb_checkpoints/
+htmlcov/
+.tox/
+.eggs/
+*.egg-info/
+build/
+dist/
+coverage/
+*.coverage
+*.log
+
+# Environnements virtuels
+.venv/
+venv/
+
+# IDEs
+.vscode/
+.idea/
+
+# Docs, tests, meta
+tests/
+doc/
+.github/
+
+# Données (si elles sont dans le contexte du build)
+rawdata/
+prepared/
+bidsified/
+configuration/
+
+# Fichiers spécifiques
+*.IMA
+*.sh
+*.gitignore
+
+# Markdown (sauf README)
+*.md
+!README.md

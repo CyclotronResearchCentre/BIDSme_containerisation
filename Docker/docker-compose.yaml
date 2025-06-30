@@ -1,0 +1,12 @@
+services:
+  bidsme:
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile
+    image: bidsme:latest
+    command: []   # default command
+    volumes:
+      - ../rawdata:/app/rawdata
+      - ../prepared:/app/prepared
+      - ../bidsified:/app/bidsified
+      - ../configuration:/app/configuration
