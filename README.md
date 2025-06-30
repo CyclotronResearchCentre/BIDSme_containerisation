@@ -23,7 +23,7 @@ Additionally, ensure that your working directory contains the following four fol
 - `rawdata/` — contains the original source files.  
 - `prepared/` — contains files that are ready to be BIDSified.  
 - `bidsified/` — contains files that have already been BIDSified.  
-- `configurations/` — contains configuration files and additional plugins.
+- `configuration/` — contains configuration files and additional plugins.
 
 ### Setup and Building the Docker Image
 
