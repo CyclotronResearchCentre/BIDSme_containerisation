@@ -10,6 +10,8 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 
 - `Docker/`  
   Contains Docker-related files including the `Dockerfile`, `docker-compose.yaml`, `.dockerignore`, and other scripts.
+- `rawdata/`, `prepared/`, `bidsified/`, `configuration/`
+Data and configuration folders expected to be present at the same level as the Docker files. 
 
 ## Getting Started
 
@@ -17,7 +19,7 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 
 - Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))  
 - The working directory must contain the following folders:
-  - `bidsme/` — clone of the [BIDSme app](https://github.com/CyclotronResearchCentre/BIDSme)
+  - `bidsme/` — clone of the [BIDSme app](https://github.com/CyclotronResearchCentre/BIDSme) taht you may pull 
   - `rawdata/` — original source files
   - `prepared/` — files that are ready to be BIDSified
   - `bidsified/` — files that have already been BIDSified
@@ -57,5 +59,5 @@ docker compose run bidsme prepare <options>
 ```bash
 docker compose run --service-ports bidsme lab
 ```
-##Additional Tools 
+## Additional Tools 
 A small helper script, `bidsme_prepare.sh`, is also provided to simplify runiing the BIDS prepare command inside the container. It wraps the typical `docker run bidsme prepare rawdata/ prepared/` call, so you don't need to manually specify the full command with all the arguments each time. 
