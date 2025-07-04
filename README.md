@@ -8,8 +8,8 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 
 ## Repository Structure
 
-- `Docker/`  
-  Contains Docker-related files including the `Dockerfile`, `docker-compose.yaml`, `.dockerignore`, and other scripts.
+- Docker-related files (e.g. `Dockerfiles`, `docker-compose.yaml`, `.dockerignore`, `entrypoint.sh`) contained directly at the root of the repository.
+- `rawdata/`, `prepared/`, `bidsified/`, `configuration/` Data and configuration folders expected at the root level alongside the Docker files.
 
 ## Getting Started
 
@@ -17,7 +17,7 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 
 - Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))  
 - The working directory must contain the following folders:
-  - `bidsme/` — clone of the [BIDSme app](https://github.com/CyclotronResearchCentre/BIDSme)
+  - `bidsme/` — clone of the [BIDSme app](https://github.com/CyclotronResearchCentre/BIDSme) that you may pull.
   - `rawdata/` — original source files
   - `prepared/` — files that are ready to be BIDSified
   - `bidsified/` — files that have already been BIDSified
