@@ -63,6 +63,15 @@ Then connect to the JupyterLab interface by opening your browser and navigating 
   `http://localhost:8888`  
   (Make sure to use the appropriate token if set)
 
+- To stop and remove the containers :
+```bash
+docker compose down
+```
+
 
 ## Additional Tools 
 A small helper script, `bidsme_prepare.sh`, is also provided to simplify runiing the BIDS prepare command inside the container. It wraps the typical `docker run bidsme prepare rawdata/ prepared/` call, so you don't need to manually specify the full command with all the arguments each time. 
+
+## Documentation 
+
+For more details on BIDSme usage and features, visit the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
