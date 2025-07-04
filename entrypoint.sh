@@ -2,10 +2,10 @@
 set -e
 
 # ──────────────────────────────────────────────
-# 1) aucun argument  →  shell interactif
-# 2) "prepare"       →  bidsme prepare RAW PREP
-# 3) "lab"           →  JupyterLab
-# 4) tout le reste   →  passé tel quel à BIDSme
+# 1) aucun argument  =>  shell interactif
+# 2) "prepare"       =>  bidsme prepare RAW PREP
+# 3) "lab"           =>  JupyterLab
+# 4) tout le reste   =>  passé tel quel à BIDSme
 # ──────────────────────────────────────────────
 
 if [ "$#" -eq 0 ]; then
