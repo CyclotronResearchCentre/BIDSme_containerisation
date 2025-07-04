@@ -1,11 +1,21 @@
-# Fichiers et dossiers inutiles
+# Fichiers Markdown
+bidsme/*.md
+!bidsme/README.md
+
+# Dossiers à ignorer dans bidsme/
+bidsme/doc/
+bidsme/tests/
+
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.swp
-*.swo
+*.py[cod]
+*.sw[po]
+
+# Jupyter
 .ipynb_checkpoints/
+*.ipynb  # retirer cette ligne si tu veux garder les notebooks
+
+# Python build tools
 htmlcov/
 .tox/
 .eggs/
@@ -16,20 +26,15 @@ coverage/
 *.coverage
 *.log
 
-# Environnements virtuels
+# Env
 .venv/
 venv/
 
-# IDEs
+# IDE
 .vscode/
 .idea/
 
-# Docs, tests, meta
-tests/
-doc/
-.github/
-
-# Données (si elles sont dans le contexte du build)
+# Données (montées par volume)
 rawdata/
 prepared/
 bidsified/
@@ -37,9 +42,10 @@ configuration/
 
 # Fichiers spécifiques
 *.IMA
-*.sh
-*.gitignore
 
-# Markdown (sauf README)
-*.md
-!README.md
+# Scripts
+*.sh
+!entrypoint.sh
+
+# Git
+*.gitignore

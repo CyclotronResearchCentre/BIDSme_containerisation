@@ -1,12 +1,16 @@
 services:
   bidsme:
     build:
-      context: ..
-      dockerfile: Docker/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     image: bidsme:latest
-    command: []   # default command
+    container_name: bidsme_app
+    restart: unless-stopped
+    command: []
     volumes:
-      - ../rawdata:/app/rawdata
-      - ../prepared:/app/prepared
-      - ../bidsified:/app/bidsified
-      - ../configuration:/app/configuration
+      - ./rawdata:/mnt/rawdata
+      - ./prepared:/mnt/prepared
+      - ./bidsified:/mnt/bidsified
+      - ./configuration:/mnt/configuration
+    ports:
+      - "8888:8888"

@@ -1,11 +1,28 @@
 #!/bin/sh
-# If no arguments → open an interactive shell in /app
-# Otherwise       → run bidsme with the given arguments
+set -e
+
+# ──────────────────────────────────────────────
+# 1) aucun argument  →  shell interactif
+# 2) "prepare"       →  bidsme prepare RAW PREP
+# 3) "lab"           →  JupyterLab
+# 4) tout le reste   →  passé tel quel à BIDSme
+# ──────────────────────────────────────────────
 
 if [ "$#" -eq 0 ]; then
-  echo "[INFO] Interactive BIDSme environment (type 'exit' to quit)"
+  echo "[INFO] Interactive shell in /app"
   cd /app
-  exec /bin/sh        # ou /bin/bash si tu ajoutes bash dans l'image
+  exec /bin/sh
+
+elif [ "$1" = "prepare" ]; then
+  shift
+  echo "[INFO] Running bidsme prepare with default /mnt paths"
+  exec bidsme prepare /mnt/rawdata /mnt/prepared "$@"
+
+elif [ "$1" = "lab" ]; then
+  shift
+  echo "[INFO] Starting JupyterLab on port ${JUPYTER_PORT:-8888} ..."
+  exec jupyter lab --ip=0.0.0.0 --port="${JUPYTER_PORT:-8888}" --no-browser --NotebookApp.token="$JUPYTER_TOKEN" --allow-root "$@"
+
 else
   exec bidsme "$@"
 fi
