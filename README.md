@@ -9,36 +9,52 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 ## Repository Structure
 
 - `Docker/`  
-  Contains Docker-related files including the `Dockerfile`, `docker-compose.yaml`, `.dockerignore`, and helper scripts.
+  Contains Docker-related files including the `Dockerfile`, `docker-compose.yaml`, `.dockerignore`, and other scripts.
 
 ## Getting Started
 
 ### Prerequisites
 
 - Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))  
-- Docker Compose (usually included with Docker Desktop)
-  
-Additionally, ensure that your working directory contains the following four folders:
-
-- `rawdata/` — contains the original source files.  
-- `prepared/` — contains files that are ready to be BIDSified.  
-- `bidsified/` — contains files that have already been BIDSified.  
-- `configuration/` — contains configuration files and additional plugins.
+- The working directory must contain the following folders:
+  - `bidsme/` — clone of the [BIDSme app](https://github.com/CyclotronResearchCentre/BIDSme)
+  - `rawdata/` — original source files
+  - `prepared/` — files that are ready to be BIDSified
+  - `bidsified/` — files that have already been BIDSified
+  - `configuration/` — configuration files and plugins
 
 ### Setup and Building the Docker Image
 
-1. First, clone this repository into your working directory:
+1. **Clone this repository**:
 
 ```bash
 git clone https://github.com/CyclotronResearchCentre/BIDSme_containerisation.git
-cd BIDSme_containerisation/Docker
+cd BIDSme_containerisation
 ```
-2. Then, build the docker image from the Docker folder
+2. **Make sure the folders `bidsme/`, `rawdata/`, `prepared/`, `bidsified/` and `configuration/` are at the same level as the Docker files for volume mounting to work correctly**
+
+3. **Then, build the docker image from the Docker folder** : 
 
 ```bash
-docker compose run –rm -it bidsme 
+docker compose build 
 ```
 
 ## Usage 
-Once the container is running, you can use BIDSme functionalities inside the container environment, ensuring all dependencies are met.
+You can use the container in different ways:
+
+- Interactive mode:
+
+```bash
+docker compose run -it bidsme 
+```
+- Run BIDSme prepare command directly to quickly initialize your data processing:
+
+```bash
+docker compose run bidsme prepare <options>
+```
+- Run Jupyter Lab inside the container:
+- 
+```bash
+docker compose run --service-ports bidsme lab
+```
 
