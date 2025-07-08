@@ -18,6 +18,10 @@ RUN git clone --depth 1 https://github.com/rordenlab/dcm2niix.git && \
 
 WORKDIR /app
 COPY bidsme /app
+
+# Installation de Jupyterlab 
+RUN pip install jupyterlab
+
 RUN pip install --no-cache-dir --prefix=/install .
 
 # Copie des sources du projet dans le dossier /app dans l'image, en omettant les fichiers inutiles cités dans .dockerignore
