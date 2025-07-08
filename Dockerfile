@@ -1,71 +1,69 @@
 # ---------- Build stage ----------
-
-# Utilisation d'une image alpine légère avec Python 3.9 (version configurable via ARG)
 ARG PYTHON_VERSION=3.9-alpine
 FROM python:${PYTHON_VERSION} AS builder
 LABEL maintainer="SPITZ Bradley <spitzbradley@gmail.com>"
 
-# Installation des dépendances nécessaires à la compilation et au build des paquets Python
+# Dépendances de compilation
 RUN apk add --no-cache --virtual .build-deps \
         build-base cmake git nodejs npm \
         python3-dev tcl-dev tk-dev libffi-dev jpeg-dev zlib-dev
 
-# Téléchargement et compilation de dcm2niix (outil pour convertir DICOM en NIfTI)
+# Compilation de dcm2niix
 WORKDIR /tmp
 RUN git clone --depth 1 https://github.com/rordenlab/dcm2niix.git && \
     cd dcm2niix && mkdir build && cd build && cmake .. && make && \
     cp bin/dcm2niix /usr/local/bin/
 
+# --- Installation des dépendances Python ---
 WORKDIR /app
 COPY bidsme /app
 
-# Installation de Jupyterlab 
-RUN pip install jupyterlab
-
+# --- INstallation de jupyterlab et de BIDSme ---
+RUN pip install --no-cache-dir --prefix=/install jupyterlab
 RUN pip install --no-cache-dir --prefix=/install .
-
-# Copie des sources du projet dans le dossier /app dans l'image, en omettant les fichiers inutiles cités dans .dockerignore
-COPY bidsme /app
 
 
 
 
 # ---------- Runtime stage ----------
-
 FROM python:${PYTHON_VERSION}
 
-# Installation des dépendances nécessaires à l’exécution (bibliothèques système)
+# Bibliothèques système nécessaires à l'exécution
 RUN apk add --no-cache tcl tk libffi jpeg zlib
 
-# Copie de l'exécutable dcm2niix compilé dans l’image runtime
+# dcm2niix compilé
 COPY --from=builder /usr/local/bin/dcm2niix /usr/local/bin/
 
-# Copie des paquets Python installés lors de la phase de build
+# Paquets Python (+ jupyter) installés sous /install
 COPY --from=builder /install /usr/local
 
-# Copie des sources de l’application dans le conteneur
+# Code source de l’application
 COPY --from=builder /app /app
 
-# Copie du script d’entrée et mise en mode exécutable
+# Entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Création d’un utilisateur non-root pour exécuter le conteneur plus sûrement
+# Utilisateur non‑root
 RUN addgroup -S app && adduser -S app -G app
+
+# Donné la propriété de /app à l'utilisateur app
+# Cela permet à l'utilisateur non-root d'écrire dans ce répertoire
+# (nécessaire pour JupyterLab qui crée des fichiers de configuration)
+# Si on ne le fait pas, JupyterLab ne pourra pas démarrer correctement
+# et affichera une erreur de permission.
+RUN chown -R app:app /app
+
 USER app
 
-# Variables d’environnement pour le comportement Python et Jupyter
-ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 \
-    JUPYTER_PORT=8888 JUPYTER_TOKEN=""
+# Variables d'environnement
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    JUPYTER_PORT=8888 \
+    JUPYTER_TOKEN=""
 
-# Définition du dossier de travail dans le conteneur
 WORKDIR /app
-
-# Exposition du port 8888 (pour Jupyter)
 EXPOSE 8888
 
-# Script d’entrée du conteneur
 ENTRYPOINT ["/entrypoint.sh"]
-
-# Commande par défaut (ici rien car entrypoint.sh gère déjà)
 CMD []
