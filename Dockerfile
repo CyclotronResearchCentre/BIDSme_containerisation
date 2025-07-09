@@ -49,7 +49,6 @@ RUN addgroup -S app && adduser -S app -G app
 
 # Donné la propriété de /app à l'utilisateur app
 # Cela permet à l'utilisateur non-root d'écrire dans ce répertoire
-# (nécessaire pour JupyterLab qui crée des fichiers de configuration)
 # Si on ne le fait pas, JupyterLab ne pourra pas démarrer correctement
 # et affichera une erreur de permission.
 RUN chown -R app:app /app
