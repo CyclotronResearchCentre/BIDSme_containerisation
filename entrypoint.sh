@@ -2,15 +2,15 @@
 set -e
 
 # ──────────────────────────────────────────────
-# 1) aucun argument  =>  shell interactif
-# 2) "prepare"       =>  bidsme prepare RAW PREP
-# 3) "lab"           =>  JupyterLab
-# 4) tout le reste   =>  passé tel quel à BIDSme
+# 1) no argument      => interactive shell
+# 2) "prepare"        => bidsme prepare RAW PREP
+# 3) "lab"            => JupyterLab
+# 4) anything else    => passed directly to BIDSme
 # ──────────────────────────────────────────────
 
 if [ "$#" -eq 0 ]; then
-  echo "[INFO] Interactive shell in /app"
-  cd /app
+  echo "[INFO] Interactive shell in /mnt"
+  cd /mnt
   exec /bin/sh
 
 elif [ "$1" = "prepare" ]; then
