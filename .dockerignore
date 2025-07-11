@@ -1,8 +1,8 @@
-# Fichiers Markdown
+# Markdown files
 bidsme/*.md
 !bidsme/README.md
 
-# Dossiers à ignorer dans bidsme/
+# Bidsme's folder to ignore
 bidsme/doc/
 bidsme/tests/
 
@@ -10,10 +10,6 @@ bidsme/tests/
 __pycache__/
 *.py[cod]
 *.sw[po]
-
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb  # retirer cette ligne si tu veux garder les notebooks
 
 # Python build tools
 htmlcov/
@@ -26,6 +22,10 @@ coverage/
 *.coverage
 *.log
 
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb 
+
 # Env
 .venv/
 venv/
@@ -34,13 +34,13 @@ venv/
 .vscode/
 .idea/
 
-# Données (montées par volume)
+# Data (mounted volumes)
 rawdata/
 prepared/
 bidsified/
 configuration/
 
-# Fichiers spécifiques
+
 *.IMA
 
 # Scripts
