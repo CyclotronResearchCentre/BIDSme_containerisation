@@ -96,7 +96,7 @@ docker run \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
-  bidsme prepare
+  bidsme prepare <options>
 ```
 - Launch JupyterLab (http://localhost:8888)
 ```bash
