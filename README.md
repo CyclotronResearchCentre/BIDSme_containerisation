@@ -47,7 +47,7 @@ You can use the container in different ways:
 - Interactive mode:
 
 ```bash
-docker compose run -it bidsme 
+docker run -it bidsme 
 ```
 - Run BIDSme prepare command directly to quickly initialize your data processing:
 
@@ -57,7 +57,7 @@ docker compose run bidsme prepare <options>
 - Run Jupyter Lab inside the container:
 
 ```bash
-docker compose run --service-ports bidsme lab
+docker run -p 8888:8888 bidsme lab
 ```
 Then connect to the JupyterLab interface by opening your browser and navigating to:  
   `http://localhost:8888`  
