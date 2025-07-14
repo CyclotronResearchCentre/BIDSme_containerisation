@@ -11,7 +11,7 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 - `Docker/`  
   Contains Docker-related files including the `Dockerfile`, `docker-compose.yaml`, `.dockerignore`, and other scripts.
 - `rawdata/`, `prepared/`, `bidsified/`, `configuration/`
-Data and configuration folders expected to be present at the same level as the Docker files. 
+Data and configuration folders expected to be present at the same level as the Docker files. You may rename the folders as you like — just make sure to update the corresponding volume paths in your docker run or docker-compose commands accordingly.
 
 ## Getting Started
 
@@ -44,10 +44,16 @@ docker compose build
 ## Usage 
 You can use the container in different ways:
 
+### Option 1 : Using Docker Compose 
+
+It is necessary to use the docker-compose run or docker-compose up command because the volumes are automatically mounted thanks to the docker-compose.yml file.
+
+This option is ideal for development or when working in a local cloned repository.
+
 - Interactive mode:
 
 ```bash
-docker run -it bidsme 
+docker compose run -it bidsme 
 ```
 - Run BIDSme prepare command directly to quickly initialize your data processing:
 
@@ -57,11 +63,36 @@ docker compose run bidsme prepare <options>
 - Run Jupyter Lab inside the container:
 
 ```bash
-docker run -p 8888:8888 bidsme lab
+docker compose run -p 8888:8888 bidsme lab
 ```
 Then connect to the JupyterLab interface by opening your browser and navigating to:  
   `http://localhost:8888`  
   (Make sure to use the appropriate token if set)
+
+### Option 2 : Using docker run with mounted folders
+
+It is also possible to use docker run directly, but in this case you must manually mount the required folders using the -v flag:
+
+- Run BIDSme prepare
+```bash
+docker run --rm -it \
+  -v $PWD/rawdata:/mnt/rawdata:ro \
+  -v $PWD/prepared:/mnt/prepared \
+  -v $PWD/bidsified:/mnt/bidsified \
+  -v $PWD/configuration:/mnt/configuration \
+  bidsme prepare
+```
+- Launch JupyterLab (http://localhost:8888)
+```bash
+docker run --rm -it \
+  -v $PWD/rawdata:/mnt/rawdata:ro \
+  -v $PWD/prepared:/mnt/prepared \
+  -v $PWD/bidsified:/mnt/bidsified \
+  -v $PWD/configuration:/mnt/configuration \
+  -p 8888:8888 \
+  bidsme lab
+```
+
 
 - To stop and remove the containers :
 ```bash
