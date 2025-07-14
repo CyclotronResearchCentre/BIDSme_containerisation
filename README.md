@@ -69,34 +69,44 @@ Then connect to the JupyterLab interface by opening your browser and navigating 
   `http://localhost:8888`  
   (Make sure to use the appropriate token if set)
 
+- To stop and remove the containers :
+```bash
+docker compose down
+```
+
 ### Option 2 : Using docker run with mounted folders
 
 It is also possible to use docker run directly, but in this case you must manually mount the required folders using the -v flag:
 
+- Interactive mode
+```bash
+docker run -it \
+  -v "$PWD/rawdata:/mnt/rawdata:ro" \
+  -v "$PWD/prepared:/mnt/prepared" \
+  -v "$PWD/bidsified:/mnt/bidsified" \
+  -v "$PWD/configuration:/mnt/configuration" \
+  bidsme
+```
+
+
 - Run BIDSme prepare
 ```bash
-docker run --rm -it \
-  -v $PWD/rawdata:/mnt/rawdata:ro \
-  -v $PWD/prepared:/mnt/prepared \
-  -v $PWD/bidsified:/mnt/bidsified \
-  -v $PWD/configuration:/mnt/configuration \
+docker run \
+  -v "$PWD/rawdata:/mnt/rawdata:ro" \
+  -v "$PWD/prepared:/mnt/prepared" \
+  -v "$PWD/bidsified:/mnt/bidsified" \
+  -v "$PWD/configuration:/mnt/configuration" \
   bidsme prepare
 ```
 - Launch JupyterLab (http://localhost:8888)
 ```bash
-docker run --rm -it \
-  -v $PWD/rawdata:/mnt/rawdata:ro \
-  -v $PWD/prepared:/mnt/prepared \
-  -v $PWD/bidsified:/mnt/bidsified \
-  -v $PWD/configuration:/mnt/configuration \
+docker run \
+  -v "$PWD/rawdata:/mnt/rawdata:ro" \
+  -v "$PWD/prepared:/mnt/prepared" \
+  -v "$PWD/bidsified:/mnt/bidsified" \
+  -v "$PWD/configuration:/mnt/configuration" \
   -p 8888:8888 \
   bidsme lab
-```
-
-
-- To stop and remove the containers :
-```bash
-docker compose down
 ```
 
 
