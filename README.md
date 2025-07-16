@@ -102,7 +102,7 @@ docker compose down
 
 ### Option 2 : Using docker run with mounted folders
 
-It is also possible to use docker run directly, but in this case you must manually mount the required folders using the -v flag:
+It is also possible to use docker run directly, but in this case you must manually mount the required folders using the -v flag. Moreover, to avoid permission issues with root-owned files inside mounted volumes, it is recommended to run the container using your user and group ID by adding the --user flag:
 
 - Interactive mode
 ```bash
@@ -111,13 +111,14 @@ docker run -it \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
+  --user $(id -u):$(id -g) \
   bidsme
 ```
 
 
 - Run BIDSme prepare
 ```bash
-docker run \
+docker run --user $(id -u):$(id -g) \
   -v "$PWD/rawdata:/mnt/rawdata:ro" \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
@@ -126,7 +127,7 @@ docker run \
 ```
 - Launch JupyterLab (http://localhost:8888)
 ```bash
-docker run \
+docker run --user $(id -u):$(id -g) \
   -v "$PWD/rawdata:/mnt/rawdata:ro" \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
