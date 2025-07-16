@@ -3,10 +3,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
     image: bidsme:latest
     container_name: bidsme_app
     restart: unless-stopped
     command: []
+    user: "${USER_ID}:${GROUP_ID}"         
+    environment:                           
+      - USER_ID=${USER_ID}
+      - GROUP_ID=${GROUP_ID}
     volumes:
       - ./rawdata:/mnt/rawdata:ro
       - ./prepared:/mnt/prepared
