@@ -43,9 +43,12 @@ COPY --from=builder /mnt /mnt
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Create non-root user
-RUN addgroup -S app && adduser -S app -G app
-RUN chown -R app:app /mnt
+# Root issue
+ARG UID=1000
+ARG GID=1000
+RUN addgroup -g $GID app && adduser -u $UID -G app -D app
+USER app
+
 
 USER app
 
