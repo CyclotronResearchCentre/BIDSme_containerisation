@@ -27,6 +27,8 @@ Data and configuration folders expected to be present at the same level as the D
 
 ### Setup and Building the Docker Image
 
+#### Option 1 : Using Docker Compose
+
 1. **Clone this repository**:
 
 ```bash
@@ -35,11 +37,35 @@ cd BIDSme_containerisation
 ```
 2. **Make sure the folders `bidsme/`, `rawdata/`, `prepared/`, `bidsified/` and `configuration/` are at the same level as the Docker files for volume mounting to work correctly**
 
-3. **Then, build the docker image from the Docker folder** : 
+3. **Export yout user and group ID to avoid root-owned files** :
+```bash
+export UID=$(id -u)
+export GID=$(id -g)
+```
+
+4. **Build the Docker image using Docker Compose** :
 
 ```bash
 docker compose build 
 ```
+
+#### Option 2 : Using Docker CLI directly
+1. **Clone this repository**:
+
+```bash
+git clone https://github.com/CyclotronResearchCentre/BIDSme_containerisation.git
+cd BIDSme_containerisation
+```
+
+2. **Build the Docker image manually while passing your user/group ID** :
+```bash
+docker build \
+  --build-arg UID=$(id -u) \
+  --build-arg GID=$(id -g) \
+  -t bidsme .
+```
+If you skip UID and GID, the container might generate root-owned files in yout mounted folders, which can cause permission issues on other systems.
+
 
 ## Usage 
 You can use the container in different ways:
