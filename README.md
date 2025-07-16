@@ -39,8 +39,8 @@ cd BIDSme_containerisation
 
 3. **Export yout user and group ID to avoid root-owned files** :
 ```bash
-export UID=$(id -u)
-export GID=$(id -g)
+export USER_ID=$(id -u)
+export GROUP_ID=$(id -g)
 ```
 
 4. **Build the Docker image using Docker Compose** :
