@@ -44,13 +44,13 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Root issue
-ARG UID=1000
-ARG GID=1000
-RUN addgroup -g $GID app && adduser -u $UID -G app -D app
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+RUN addgroup -g $GROUP_ID app && adduser -u $USER_ID -G app -D app
+
 USER app
 
 
-USER app
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1 \
