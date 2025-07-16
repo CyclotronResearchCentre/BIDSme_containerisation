@@ -60,8 +60,8 @@ cd BIDSme_containerisation
 2. **Build the Docker image manually while passing your user/group ID** :
 ```bash
 docker build \
-  --build-arg UID=$(id -u) \
-  --build-arg GID=$(id -g) \
+  --build-arg USER_ID=$(id -u) \
+  --build-arg GROUP_ID=$(id -g) \
   -t bidsme .
 ```
 If you skip UID and GID, the container might generate root-owned files in yout mounted folders, which can cause permission issues on other systems.
