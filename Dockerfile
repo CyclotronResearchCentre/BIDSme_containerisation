@@ -1,24 +1,17 @@
 # ---------- Build stage ----------
-ARG PYTHON_VERSION=3.9-alpine
+ARG PYTHON_VERSION=3.9-slim
 FROM python:${PYTHON_VERSION} AS builder
 LABEL maintainer="SPITZ Bradley <spitzbradley@gmail.com>"
 
-# Compilation dependencies
-RUN apk add --no-cache --virtual .build-deps \
-        build-base cmake git nodejs npm \
-        python3-dev tcl-dev tk-dev libffi-dev zlib-dev
-
-# Compilation of dcm2niix
-WORKDIR /tmp
-RUN git clone --depth 1 https://github.com/rordenlab/dcm2niix.git && \
-    cd dcm2niix && mkdir build && cd build && cmake .. && make && \
-    cp bin/dcm2niix /usr/local/bin/
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tcl tk libffi-dev zlib1g dcm2niix \
+    && rm -rf /var/lib/apt/lists/*
 
 
 WORKDIR /mnt
 COPY bidsme /mnt
 
-# Installation of jupyterlab and BIDSme 
+# Install jupyterlab and BIDSme into a custom prefix
 RUN pip install --no-cache-dir --prefix=/install jupyterlab
 RUN pip install --no-cache-dir --prefix=/install .
 
@@ -27,37 +20,36 @@ RUN pip install --no-cache-dir --prefix=/install .
 # ---------- Runtime stage ----------
 FROM python:${PYTHON_VERSION}
 
-# Required system libraries at runtime
-RUN apk add --no-cache tcl tk libffi zlib
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tcl tk libffi-dev zlib1g dcm2niix \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy compiled dcm2niix
-COPY --from=builder /usr/local/bin/dcm2niix /usr/local/bin/
 
-# Copy installed Python packages
+# Copy installed Python packages from build stage
 COPY --from=builder /install /usr/local
 
-# Copy application source
+# Copy application source code
 COPY --from=builder /mnt /mnt
 
-# Copy entrypoint
+# Copy entrypoint script and make it executable
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Root issue
+# Create app user with specified UID and GID
 ARG USER_ID=1000
 ARG GROUP_ID=1000
-RUN addgroup -g $GROUP_ID app && adduser -u $USER_ID -G app -D app
+RUN groupadd -g $GROUP_ID app && useradd -m -u $USER_ID -g app app
 
 USER app
-
-
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     JUPYTER_PORT=8888 \
     JUPYTER_TOKEN=""
+
 WORKDIR /mnt
 EXPOSE 8888
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []
