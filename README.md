@@ -17,7 +17,10 @@ Data and configuration folders expected to be present at the same level as the D
 
 ### Prerequisites
 
-- Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))  
+- Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))
+- Docker Compose installed separately (if not included with your Docker installation)
+You can check by running `docker-compose --version` or `docker compose version` in your terminal.
+If missing, install Docker Compose by following the instructions here: [Install Docker Compose](https://docs.docker.com/compose/install/)
 - The working directory must contain the following folders:
   - `bidsme/` — clone of the [BIDSme app](https://github.com/CyclotronResearchCentre/BIDSme) that you may pull 
   - `rawdata/` — original source files
@@ -57,15 +60,10 @@ git clone https://github.com/CyclotronResearchCentre/BIDSme_containerisation.git
 cd BIDSme_containerisation
 ```
 
-2. **Build the Docker image manually while passing your user/group ID** :
+2. **Build the Docker image manually :
 ```bash
-docker build \
-  --build-arg USER_ID=$(id -u) \
-  --build-arg GROUP_ID=$(id -g) \
-  -t bidsme .
+docker build -t bidsme .
 ```
-If you skip UID and GID, the container might generate root-owned files in yout mounted folders, which can cause permission issues on other systems.
-
 
 ## Usage 
 You can use the container in different ways:
@@ -102,7 +100,7 @@ docker compose down
 
 ### Option 2 : Using docker run with mounted folders
 
-It is also possible to use docker run directly, but in this case you must manually mount the required folders using the -v flag. Moreover, to avoid permission issues with root-owned files inside mounted volumes, it is recommended to run the container using your user and group ID by adding the --user flag:
+It is also possible to use docker run directly, but in this case you must manually mount the required folders using the -v flag :
 
 - Interactive mode
 ```bash
@@ -111,14 +109,13 @@ docker run -it \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
-  --user $(id -u):$(id -g) \
   bidsme
 ```
 
 
 - Run BIDSme prepare
 ```bash
-docker run --user $(id -u):$(id -g) \
+docker run \
   -v "$PWD/rawdata:/mnt/rawdata:ro" \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
@@ -127,7 +124,7 @@ docker run --user $(id -u):$(id -g) \
 ```
 - Launch JupyterLab (http://localhost:8888)
 ```bash
-docker run --user $(id -u):$(id -g) \
+docker run \
   -v "$PWD/rawdata:/mnt/rawdata:ro" \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
