@@ -18,7 +18,8 @@ RUN git clone https://github.com/CyclotronResearchCentre/bidsme \
 
 # Install Python dependencies
 WORKDIR /src/bidsme
-RUN pip install --no-cache-dir ".[all]"
+RUN pip install --no-cache-dir jupyterlab \
+ && pip install --no-cache-dir ".[all]"
 
 
 
