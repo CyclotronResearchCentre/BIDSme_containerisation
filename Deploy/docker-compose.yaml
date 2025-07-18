@@ -1,23 +1,24 @@
 services:
   bidsme:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../build           # <-- Where the Dockerfile is located
+      dockerfile: Dockerfile       
       args:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
-    image: bidsme:latest
+        BIDSME_VERSION: ${BIDSME_VERSION}
+    image: bidsme:${BIDSME_VERSION}
     container_name: bidsme_app
     restart: unless-stopped
     command: []
-    user: "${USER_ID}:${GROUP_ID}"         
-    environment:                           
+    user: "${USER_ID}:${GROUP_ID}"
+    environment:
       - USER_ID=${USER_ID}
       - GROUP_ID=${GROUP_ID}
     volumes:
-      - ./rawdata:/mnt/rawdata:ro
-      - ./prepared:/mnt/prepared
-      - ./bidsified:/mnt/bidsified
-      - ./configuration:/mnt/configuration
+      - ../rawdata:/mnt/rawdata:ro
+      - ../prepared:/mnt/prepared
+      - ../bidsified:/mnt/bidsified
+      - ../configuration:/mnt/configuration
     ports:
       - "8888:8888"
