@@ -22,8 +22,6 @@ RUN pip install --no-cache-dir jupyterlab \
  && pip install --no-cache-dir ".[all]"
 
 
-
-
 # ---------- Runtime stage ----------
 FROM python:${PYTHON_VERSION}
 
@@ -44,6 +42,11 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN groupadd -g $GROUP_ID app && useradd -m -u $USER_ID -g app app
 
+# Create a directory for mounting data
+# and set permissions for the non-root user
+RUN mkdir -p /mnt && chown app:app /mnt
+
+# Switch to non-root user
 USER app
 
 # Set environment variables
