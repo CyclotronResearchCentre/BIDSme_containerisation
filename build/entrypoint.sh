@@ -1,6 +1,15 @@
 #!/bin/sh
 set -e
 
+echo "[INFO] Checking permissions on /mnt and mounted folders..."
+
+# Check if /mnt is writable
+OWNER=$(stat -c '%U' /mnt)
+if [ "$OWNER" != "app" ]; then
+  echo "[WARN] /mnt is owned by $OWNER, but should be 'app'. Please verify volume mount permissions."
+fi
+
+
 # ──────────────────────────────────────────────
 # 1) no argument      => interactive shell
 # 2) "prepare"        => bidsme prepare RAW PREP
