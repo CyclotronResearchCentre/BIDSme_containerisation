@@ -84,6 +84,7 @@ You can install additionnal Python packages inside the container using `pip`, an
 This applies both when using the container via terminal or from within jupyterLab notebooks. 
 
 **Example (from Terminal)**
+
 After running your container and installing your module :
 ```bash
 pip install random_module
