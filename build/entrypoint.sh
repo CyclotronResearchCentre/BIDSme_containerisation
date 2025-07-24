@@ -23,7 +23,7 @@ fi
 if [ "$#" -eq 0 ]; then
   echo "[INFO] Interactive shell in /mnt"
   cd /mnt
-  exec /bin/sh
+  exec bash
 
 elif [ "$1" = "prepare" ]; then
   shift
