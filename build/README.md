@@ -78,6 +78,24 @@ docker run \
   -p 8888:8888 \
   bidsme lab
 ``` 
+### Installing Python packages with pip inside the Container
+You can install additionnal Python packages inside the container using `pip`, and they will persist as long as you reuse the same container (i.e., you do not delete or recreate it).
+
+This applies both when using the container via terminal or from within jupyterLab notebooks. 
+
+**Example (from Terminal)**
+After running your container and installing your module :
+```bash
+pip install random_module
+```
+Next time you restart the same container : 
+```bash
+docker start -ai <container_ID>
+```
+The package will still be available.
+(To see your container ID juste use the `docker ps -a` command.
+
+This principle is also aaplies for Jupyter Notebooks.
 
 ## Documentation 
 
