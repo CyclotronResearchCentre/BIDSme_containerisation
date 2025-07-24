@@ -55,7 +55,7 @@ docker run -it \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
-  bidsme
+  bidsme:version
 ```
 
 
@@ -66,7 +66,7 @@ docker run \
   -v "$PWD/prepared:/mnt/prepared" \
   -v "$PWD/bidsified:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
-  bidsme prepare <options>
+  bidsme:version prepare <options>
 ```
 - Launch JupyterLab (http://localhost:8888)
 ```bash
@@ -76,7 +76,7 @@ docker run \
   -v "$PWD/bidsified:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
   -p 8888:8888 \
-  bidsme lab
+  bidsme:version lab
 ``` 
 ### Installing Python packages with pip inside the Container
 You can install additionnal Python packages inside the container using `pip`, and they will persist as long as you reuse the same container (i.e., you do not delete or recreate it).
