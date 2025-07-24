@@ -96,7 +96,7 @@ docker start -ai <container_ID>
 The package will still be available.
 (To see your container ID juste use the `docker ps -a` command.
 
-This principle is also aaplies for Jupyter Notebooks.
+This principle is also aaplies to Jupyter Notebooks.
 
 ## Documentation 
 
