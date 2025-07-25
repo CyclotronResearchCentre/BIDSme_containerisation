@@ -1,9 +1,10 @@
 #!/bin/sh
 set -e
 
+rm -rf /home/app/.local/share/jupyter/runtime/*
+
 echo "[INFO] Checking permissions on /mnt and mounted folders..."
 
-# Check if /mnt is writable
 OWNER=$(stat -c '%U' /mnt)
 if [ "$OWNER" != "app" ]; then
   echo "[WARN] /mnt is owned by $OWNER, but should be 'app'. Please verify volume mount permissions."
@@ -47,9 +48,28 @@ elif [ "$1" = "bidsify" ]; then
 
 elif [ "$1" = "lab" ]; then
   shift
-  echo "[INFO] Starting JupyterLab on port ${JUPYTER_PORT:-8888} ..."
-  exec jupyter lab --ip=0.0.0.0 --port="${JUPYTER_PORT:-8888}" --no-browser --NotebookApp.token="$JUPYTER_TOKEN" --allow-root "$@"
+  MODE=${1:-prod}
+  shift  # <== essential
 
-else
-  exec bidsme "$@"
+  if [ "$MODE" = "prod" ]; then
+    export BIDSME_PRODUCTION="true"
+    DEFAULT_NOTEBOOK="bidsification_prod.ipynb"
+  elif [ "$MODE" = "dev" ]; then
+    export BIDSME_PRODUCTION="false"
+    DEFAULT_NOTEBOOK="bidsification_dev.ipynb"
+  else
+    echo "[ERROR] Unknown lab mode: $MODE (use 'dev' or 'prod')"
+    exit 1
+  fi
+
+  echo "[INFO] Launching JupyterLab in '$MODE' mode and opening $DEFAULT_NOTEBOOK"
+
+  cp /etc/jupyter/notebooks/"$DEFAULT_NOTEBOOK" /mnt/"$DEFAULT_NOTEBOOK"
+  echo "[INFO] Notebook copied to /mnt/$DEFAULT_NOTEBOOK"
+
+  export PYTHONSTARTUP="/etc/jupyter/init_bidsme.py"
+
+  exec jupyter lab /mnt/"$DEFAULT_NOTEBOOK" \
+      --ip=0.0.0.0 --port="${JUPYTER_PORT:-8888}" \
+      --no-browser --NotebookApp.token="$JUPYTER_TOKEN" --allow-root "$@"
 fi
