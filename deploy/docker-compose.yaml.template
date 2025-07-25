@@ -10,7 +10,7 @@ services:
 
     image: bidsme:${BIDSME_VERSION}  # Name and version tag of the resulting image
 
-    container_name: bidsme_app       # Explicit name of the container
+    container_name: bidsme_app_${MODE}      # Explicit name of the container
 
     restart: unless-stopped          # Restart policy: restart the container unless it is manually stopped
 
@@ -23,10 +23,10 @@ services:
       - GROUP_ID=${GROUP_ID}         # Pass group ID as an environment variable into the container
 
     volumes:
-      - ../rawdata:/mnt/rawdata:ro           # Mount the 'rawdata' folder as read-only inside the container
-      - ../prepared:/mnt/prepared            # Mount the 'prepared' folder (writeable)
-      - ../bidsified:/mnt/bidsified          # Mount the 'bidsified' folder (writeable)
-      - ../configuration:/mnt/configuration  # Mount the 'configuration' folder (writeable)
+    - ../rawdata_${MODE}:/mnt/rawdata_${MODE}:ro   # Mount the 'rawdata' folder as read-only
+    - ../prepared_${MODE}:/mnt/prepared_${MODE}    # Mount the 'prepared' folder (writeable)
+    - ../bidsified_${MODE}:/mnt/bidsified_${MODE}   # Mount the 'bidsified' folder (writeable)
+    - ../configuration:/mnt/configuration   # Mount the 'configuration' folder (writeable)
       # Change the paths above to match your local setup
 
     ports:
