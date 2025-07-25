@@ -16,10 +16,8 @@ ARG BIDSME_VERSION=dev
 RUN git clone https://github.com/CyclotronResearchCentre/bidsme \
  && cd bidsme && git checkout ${BIDSME_VERSION}
 
-# Install Python dependencies
 WORKDIR /src/bidsme
-RUN pip install --no-cache-dir jupyterlab \
- && pip install --no-cache-dir ".[all]"
+RUN pip install --no-cache-dir jupyterlab && pip install --no-cache-dir ".[all]"
 
 
 # ---------- Runtime stage ----------
@@ -37,14 +35,24 @@ COPY --from=builder /usr/local /usr/local
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+
+COPY init_bidsme_lab.py /etc/jupyter/init_bidsme.py
+
+# Copy notebooks into the image
+COPY notebooks/ /etc/jupyter/notebooks/
+
+
+
 # Create non-root user (helps with file permissions when mounting volumes)
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN groupadd -g $GROUP_ID app && useradd -m -u $USER_ID -g app app
 
 # Create a directory for mounting data
-# and set permissions for the non-root user
 RUN mkdir -p /mnt && chown app:app /mnt
+
+# Fix for Jupyter config permissions
+RUN mkdir -p /home/app/.jupyter && chown -R app:app /home/app
 
 # Switch to non-root user
 USER app
