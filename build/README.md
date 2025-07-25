@@ -6,7 +6,8 @@ This folder contains the Dockerfile and the entrypoint script used to build the 
 
 - `Dockerfile` — defines the environment and installation steps for BIDSme.  
 - `entrypoint.sh` — script that manages container entrypoint logic and command routing.  
-- `build.sh ` — helper script to automatically fetch the current BIDSme version and build the Docker image with the correct tag.
+- `build.sh` — helper script to automatically fetch the current BIDSme version and build the Docker image with the correct tag.
+- `init_bidsme_lab.py` - initialization script automatically loaded when JupyterLab is launched, which prepares paths and settings depending on the mode (dev or prod).
 
 
 ## Getting Started
@@ -14,14 +15,14 @@ This folder contains the Dockerfile and the entrypoint script used to build the 
 ### Prerequisites
 
 - Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))
-- The working directory must contain the following folders:
-  - `rawdata/` — original source files
-  - `prepared/` — files that are ready to be BIDSified
-  - `bidsified/` — files that have already been BIDSified
+- The working directory must contain the following folders - with a suffix specifying the chosen mode (`_dev`) or (`_prod`), whether you wish to wrok in production or development mode:
+  - `rawdata_<mode>/` — original source files
+  - `prepared_<mode>/` — files that are ready to be BIDSified
+  - `bidsified_<mode>/` — files that have already been BIDSified
   - `configuration/` — configuration files and plugins
  
-You can rename these folders (`rawdata/`, `prepared/`, `bidsified/`, `configuration/`) as you wish to fit your project structure.
-However, if you do so, make sure to update the corresponding folder paths accordingly in all relevant files in this repository — such as in the `docker-compose.yml`, volume mounts, and any helper scripts — to ensure proper functionality.
+You can rename these folders as you wish to fit your project structure.
+However, if you do so, make sure to update the corresponding folder paths accordingly in all relevant files in this repository — such as in the `docker-compose.yml`, volume mounts, `init_bidsme_lab.py` and any helper scripts — to ensure proper functionality.
 
 ### Setup and Building the Docker Image
 
@@ -51,33 +52,54 @@ You can use the container in different ways by using the docker run comand direc
 - Interactive mode
 ```bash
 docker run -it \
-  -v "$PWD/rawdata:/mnt/rawdata:ro" \
-  -v "$PWD/prepared:/mnt/prepared" \
-  -v "$PWD/bidsified:/mnt/bidsified" \
+  -v "$PWD/rawdata_prod:/mnt/rawdata:ro" \
+  -v "$PWD/prepared_prod:/mnt/prepared" \
+  -v "$PWD/bidsified_prod:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
-  bidsme:version
+  bidsme:<version>
 ```
-
 
 - Run BIDSme prepare
 ```bash
 docker run \
-  -v "$PWD/rawdata:/mnt/rawdata:ro" \
-  -v "$PWD/prepared:/mnt/prepared" \
-  -v "$PWD/bidsified:/mnt/bidsified" \
+  -v "$PWD/rawdata_prod:/mnt/rawdata:ro" \
+  -v "$PWD/prepared_prod:/mnt/prepared" \
+  -v "$PWD/bidsified_prod:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
-  bidsme:version prepare <options>
+  bidsme:<version> prepare <options>
 ```
+
+Replace `_prod` by `_dev` if needed.
+
 - Launch JupyterLab (http://localhost:8888)
 ```bash
 docker run \
-  -v "$PWD/rawdata:/mnt/rawdata:ro" \
-  -v "$PWD/prepared:/mnt/prepared" \
-  -v "$PWD/bidsified:/mnt/bidsified" \
+  -v "$PWD/rawdata_prod:/mnt/rawdata:ro" \
+  -v "$PWD/prepared_prod:/mnt/prepared" \
+  -v "$PWD/bidsified_prod:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
   -p 8888:8888 \
-  bidsme:version lab
-``` 
+  bidsme:<version> lab prod
+```
+To use development mode instead: 
+```bash
+docker run \
+  -v "$PWD/rawdata_dev:/mnt/rawdata:ro" \
+  -v "$PWD/prepared_dev:/mnt/prepared" \
+  -v "$PWD/bidsified_dev:/mnt/bidsified" \
+  -v "$PWD/configuration:/mnt/configuration" \
+  -p 8888:8888 \
+  bidsme:<version> lab dev
+```
+
+When launching JupyterLab with `lab`, the container runs the `init_bidsme_lab.py` script automatically.
+This script : 
+- Detects the mode (`dev` or `prod`) from the command line.
+- Sets up the appropriate paths inside the container (/mnt/rawdata_prod, etc.).
+- Validates the presence of expected folders.
+- Automatically add the corresponding Jupyter Notebooks when Lab starts. 
+
+
 ### Installing Python packages with pip inside the Container
 You can install additionnal Python packages inside the container using `pip`, and they will persist as long as you reuse the same container (i.e., you do not delete or recreate it).
 
@@ -101,4 +123,7 @@ This principle is also aaplies to Jupyter Notebooks.
 ## Documentation 
 
 For more details on BIDSme usage and features, visit the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
+
+The default Jupyter notebooks used for both development and production modes are maintained separately and can be found in the [bidsme-template](github.com/CyclotronResearchCentre/bidsme-template/tree/main/notebook) repository.
+Feel free to adapt or replace them according to your needs.
 
