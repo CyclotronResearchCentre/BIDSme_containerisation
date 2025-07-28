@@ -23,6 +23,7 @@ services:
       - GROUP_ID=${GROUP_ID}         # Pass group ID as an environment variable into the container
 
     volumes:
+    - ../notebooks/bidsification_dev.ipynb:/mnt/bidsification_dev.ipynb       # Mount the BIDSification notebook (read-write)
     - ../rawdata_dev:/mnt/rawdata_dev:ro   # Mount the 'rawdata' folder as read-only
     - ../prepared_dev:/mnt/prepared_dev    # Mount the 'prepared' folder (writeable)
     - ../bidsified_dev:/mnt/bidsified_dev   # Mount the 'bidsified' folder (writeable)
