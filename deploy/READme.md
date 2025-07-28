@@ -21,6 +21,23 @@ This folder contains the files necessary to orchestrate and run the BIDSme conta
 > Replace `<mode>` with either `dev` or `prod` depending on the use case.  
 > If you rename these folders, update the names accordingly in `launch.sh`, `docker-compose.yml.template`, and `init_bidsme_lab.py`.
 
+### Expected Structure of the `configuration/` Folder
+The `configuration/` folder should follow a structure similar to the one below : 
+
+```pgsql
+configuration/
+├── lists/
+├── map/
+│   └── bidsmap.yaml
+├── plugin/
+│   ├── bidsify_plugin.py
+│   └── prepare_plugin.py
+└── template/
+    └── participants.json
+```
+
+> This is the default recommended structure.
+> However, ot can be adjusted to your needs - just ensure you update the paths and logic accordingly in the `init_bidsme_lab.py` script, which loads these files when launching JupyterLab.
 
 ## Building & Launch with Docker Compose (Recommended) 
 1. **Clone this repository**:
