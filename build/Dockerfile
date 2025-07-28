@@ -3,55 +3,44 @@ ARG PYTHON_VERSION=3.9-slim-bullseye
 FROM python:${PYTHON_VERSION} AS builder
 LABEL maintainer="SPITZ Bradley <spitzbradley@gmail.com>"
 
-# Install system dependencies required to build BIDSme
+# Install required system dependencies for BIDSme
 RUN apt-get update && apt-get install -y --no-install-recommends \
         tcl tk libffi-dev zlib1g dcm2niix git \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Clone BIDSme source code
 WORKDIR /src
-
-# Clone BIDSme and checkout specific version (passed by --build-arg)
 ARG BIDSME_VERSION=dev
 RUN git clone https://github.com/CyclotronResearchCentre/bidsme \
  && cd bidsme && git checkout ${BIDSME_VERSION}
 
+# Install Python dependencies including JupyterLab
 WORKDIR /src/bidsme
 RUN pip install --no-cache-dir jupyterlab && pip install --no-cache-dir ".[all]"
-
 
 # ---------- Runtime stage ----------
 FROM python:${PYTHON_VERSION}
 
-# Install only what is strictly required at runtime
+# Install system dependencies again for runtime container
 RUN apt-get update && apt-get install -y --no-install-recommends \
         tcl tk libffi-dev zlib1g dcm2niix \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy installed Python packages from builder
+# Copy all installed Python packages from the builder image
 COPY --from=builder /usr/local /usr/local
 
-# Copy entrypoint script
+# Copy entrypoint script and init script for JupyterLab
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-
 COPY init_bidsme_lab.py /etc/jupyter/init_bidsme.py
 
-# Copy notebooks into the image
-COPY notebooks/ /etc/jupyter/notebooks/
-
-
-
-# Create non-root user (helps with file permissions when mounting volumes)
+# Set up non-root user with specified UID and GID
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN groupadd -g $GROUP_ID app && useradd -m -u $USER_ID -g app app
 
-# Create a directory for mounting data
+# Create working and config directories with appropriate ownership
 RUN mkdir -p /mnt && chown app:app /mnt
-
-# Fix for Jupyter config permissions
 RUN mkdir -p /home/app/.jupyter && chown -R app:app /home/app
 
 # Switch to non-root user
@@ -63,9 +52,10 @@ ENV PYTHONUNBUFFERED=1 \
     JUPYTER_PORT=8888 \
     JUPYTER_TOKEN=""
 
-# Set default work directory and expose Jupyter port
+# Default working directory and port
 WORKDIR /mnt
 EXPOSE 8888
 
+# Entrypoint handles all logic (prepare, process, lab, etc.)
 ENTRYPOINT ["/entrypoint.sh"]
 CMD []
