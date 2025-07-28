@@ -14,6 +14,9 @@ BIDSme is a tool designed to simplify working with BIDS-formatted neuroimaging d
 - `deploy/`  
   Contains deployment-related files such as `docker-compose.yml` and helper scripts like `bidsme-prepare.sh` to facilitate container orchestration and common workflows.
 
+- `notebooks/` 
+Contains Jupyter notebooks used as interactive interfaces for data processing and analysis in both development and production modes. These notebooks are designed to be mounted inside the container to allow for live editing and persistence of changes.
+
 ## Getting Started
 
 Please refer to the README files inside the `build/` and `deploy/` folders for detailed instructions on building the Docker image and deploying the container respectively.
