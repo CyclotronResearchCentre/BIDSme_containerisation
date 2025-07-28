@@ -24,6 +24,24 @@ This folder contains the Dockerfile and the entrypoint script used to build the 
 You can rename these folders as you wish to fit your project structure.
 However, if you do so, make sure to update the corresponding folder paths accordingly in all relevant files in this repository — such as in the `docker-compose.yml`, volume mounts, `init_bidsme_lab.py` and any helper scripts — to ensure proper functionality.
 
+#### Expected Structure of the `configuration/` Folder
+The `configuration/` folder should follow a structure similar to the one below : 
+
+```pgsql
+configuration/
+├── lists/
+├── map/
+│   └── bidsmap.yaml
+├── plugin/
+│   ├── bidsify_plugin.py
+│   └── prepare_plugin.py
+└── template/
+    └── participants.json
+```
+
+> This is the default recommended structure.
+> However, ot can be adjusted to your needs - just ensure you update the paths and logic accordingly in the `init_bidsme_lab.py` script, which loads these files when launching JupyterLab.
+
 ### Setup and Building the Docker Image
 
 1. **Clone this repository**:
