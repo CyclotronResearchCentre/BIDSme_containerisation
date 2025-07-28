@@ -20,6 +20,7 @@ This folder contains the Dockerfile and the entrypoint script used to build the 
   - `prepared_<mode>/` — files that are ready to be BIDSified
   - `bidsified_<mode>/` — files that have already been BIDSified
   - `configuration/` — configuration files and plugins
+  - `notebooks/` — folder containing the Jupyter Notebooks to be used (e.g. `bidsification_prod.ipynb`, `bidsification_dev.ipynb`)
  
 You can rename these folders as you wish to fit your project structure.
 However, if you do so, make sure to update the corresponding folder paths accordingly in all relevant files in this repository — such as in the `docker-compose.yml`, volume mounts, `init_bidsme_lab.py` and any helper scripts — to ensure proper functionality.
@@ -96,6 +97,7 @@ docker run \
   -v "$PWD/prepared_prod:/mnt/prepared" \
   -v "$PWD/bidsified_prod:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
+  -v "$PWD/notebooks/bidsification_prod.ipynb:/mnt/bidsification_prod.ipynb"
   -p 8888:8888 \
   bidsme:<version> lab prod
 ```
@@ -106,6 +108,7 @@ docker run \
   -v "$PWD/prepared_dev:/mnt/prepared" \
   -v "$PWD/bidsified_dev:/mnt/bidsified" \
   -v "$PWD/configuration:/mnt/configuration" \
+  -v "$PWD/notebooks/bidsification_dev.ipynb:/mnt/bidsification_dev.ipynb"
   -p 8888:8888 \
   bidsme:<version> lab dev
 ```
