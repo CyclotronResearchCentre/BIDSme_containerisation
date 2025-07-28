@@ -55,6 +55,7 @@ export BIDSME_VERSION=$(curl -s https://raw.githubusercontent.com/CyclotronResea
 ```
 
 3. **Choose your usage mode (`dev` or `prod`)** :
+   
 **Run JupyterLab (recommended interface) :**
 
 ```bash
@@ -72,7 +73,7 @@ docker compose -f dockercompose-dev.yaml run bidsme prepare <options>
 # or
 docker compose -f dockercompose-prod.yaml run bidsme prepare <options>
 ```
-**Run BIDSme in CLI mode : **
+**Run BIDSme in CLI mode :**
 
 ```bash
 docker compose -f dockercompose-dev.yaml run -it bidsme 
