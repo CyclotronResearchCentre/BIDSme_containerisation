@@ -67,7 +67,7 @@ Or to run a specific command like `prepare`:
 ```bash
 docker compose -f docker-compose.generated.yaml run bidsme prepare <options>
 ```
-However, make sure tu run `launc.sh` first to ensure `docker-compose.generated.yaml` is present and up to date.
+However, make sure tu run `launch.sh` first to ensure `docker-compose.generated.yaml` is present and up to date.
 
 To clean up the containers :
 ```bash
