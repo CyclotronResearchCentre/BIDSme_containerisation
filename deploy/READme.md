@@ -4,8 +4,8 @@ This folder contains the files necessary to orchestrate and run the BIDSme conta
 
 ## Contents
 
-- `dockercompose-dev.yaml` — Docker Compose configuration for development mode.
-- `dockercompose-prod.yaml` — Docker Compose configuration for production mode.
+- `docker-compose-dev.yaml` — Docker Compose configuration for development mode.
+- `docker-compose-prod.yaml` — Docker Compose configuration for production mode.
 - `bidsme-prepare.sh` — helper script to simplify running the BIDSme prepare command inside the container.
 
 ## Prerequisites
@@ -59,9 +59,9 @@ export BIDSME_VERSION=$(curl -s https://raw.githubusercontent.com/CyclotronResea
 **Run JupyterLab (recommended interface) :**
 
 ```bash
-docker compose -f dockercompose-dev.yaml run -p 8888:8888 bidsme lab
+docker compose -f docker-compose-dev.yaml run -p 8888:8888 bidsme lab
 # or
-docker compose -f dockercompose-prod.yaml run -p 8888:8888 bidsme lab
+docker compose -f docker-compose-prod.yaml run -p 8888:8888 bidsme lab
 ```
 Then open your browser and go to [http://localhost:8888](http://localhost:8888).
 The appropriate notebook will be auto-selected by `init_bidsme_lab.py`.
@@ -69,22 +69,23 @@ The appropriate notebook will be auto-selected by `init_bidsme_lab.py`.
 **Run BIDSme `prepare` directly :**
 
 ```bash
-docker compose -f dockercompose-dev.yaml run bidsme prepare <options>
+docker compose -f docker-compose-dev.yaml run bidsme prepare <options>
 # or
-docker compose -f dockercompose-prod.yaml run bidsme prepare <options>
+docker compose -f docker-compose-prod.yaml run bidsme prepare <options>
 ```
 **Run BIDSme in CLI mode :**
 
 ```bash
-docker compose -f dockercompose-dev.yaml run -it bidsme 
+docker compose -f docker-compose-dev.yaml run -it bidsme 
 # or
-docker compose -f dockercompose-prod.yaml run -it bidsme 
+docker compose -f docker-compose-prod.yaml run -it bidsme 
 ```
 
 **To clean up the containers :**
 ```bash
-docker compose -f docker-compose.generated.yaml down
-
+docker compose -f docker-compose-prod.yaml down
+# or
+docker compose -f docker-compose-dev.yaml down
 ```
 ## Documentation 
 For more details on BIDSme usage and features, visit the [BIDsme GitHub repository](https://github.com/CyclotronResearchCentre/bidsme)
