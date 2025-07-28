@@ -40,7 +40,7 @@ You have two options to build the Docker image:
 docker build -t bidsme .
 ```
 - Automated build with version tagging:
-Use the provided `build.sh ` script which fetches the latest BIDSme version form the GitHub repository and build the Docker image with taht version tag automatically.
+Use the provided `build.sh ` script which fetches the latest BIDSme version form the GitHub repository and build the Docker image with that version tag automatically.
 ```bash
 ./build.sh
 ```
