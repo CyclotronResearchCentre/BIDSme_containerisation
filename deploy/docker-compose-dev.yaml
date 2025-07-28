@@ -1,0 +1,33 @@
+services:
+  bidsme:
+    build:
+      context: ../build           # The build context: directory containing the Dockerfile and other resources
+      dockerfile: Dockerfile     # Name of the Dockerfile to use (located in the 'build' directory)
+      args:
+        USER_ID: ${USER_ID}      # Build argument: user ID passed during build time
+        GROUP_ID: ${GROUP_ID}    # Build argument: group ID passed during build time
+        BIDSME_VERSION: ${BIDSME_VERSION}  # Build argument: version tag for the BIDSme image (these arguments should be exported)
+
+    image: bidsme:${BIDSME_VERSION}  # Name and version tag of the resulting image
+
+    container_name: bidsme_app_dev     # Explicit name of the container
+
+    restart: unless-stopped          # Restart policy: restart the container unless it is manually stopped
+
+    command: []                      # Empty command override: default ENTRYPOINT from Dockerfile will be used
+
+    user: "${USER_ID}:${GROUP_ID}"   # Run the container as a specific user and group (for file permissions)
+
+    environment:
+      - USER_ID=${USER_ID}           # Pass user ID as an environment variable into the container
+      - GROUP_ID=${GROUP_ID}         # Pass group ID as an environment variable into the container
+
+    volumes:
+    - ../rawdata_dev:/mnt/rawdata_dev:ro   # Mount the 'rawdata' folder as read-only
+    - ../prepared_dev:/mnt/prepared_dev    # Mount the 'prepared' folder (writeable)
+    - ../bidsified_dev:/mnt/bidsified_dev   # Mount the 'bidsified' folder (writeable)
+    - ../configuration:/mnt/configuration   # Mount the 'configuration' folder (writeable)
+      # Change the paths above to match your local setup
+
+    ports:
+      - "8888:8888"                  # Expose port 8888 (typically for JupyterLab)
