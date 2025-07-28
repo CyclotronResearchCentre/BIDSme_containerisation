@@ -4,9 +4,9 @@ This folder contains the files necessary to orchestrate and run the BIDSme conta
 
 ## Contents
 
-- `docker-compose.yml.template` — template file used to generate the final Docker Compose file depending on the selected mode (`dev` or `prod`).
+- `dockercompose-dev.yaml` — Docker Compose configuration for development mode.
+- `dockercompose-prod.yaml` — Docker Compose configuration for production mode.
 - `bidsme-prepare.sh` — helper script to simplify running the BIDSme prepare command inside the container.
--  `launch.sh` - main launcher script that automatically configures the environment and launches BIDSme in JupyterLab.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ This folder contains the files necessary to orchestrate and run the BIDSme conta
   - `configuration/` — configuration files and plugins
 
 > Replace `<mode>` with either `dev` or `prod` depending on the use case.  
-> If you rename these folders, update the names accordingly in `launch.sh`, `docker-compose.yml.template`, and `init_bidsme_lab.py`.
+> If you rename these folders, update the names accordingly in the compose files and in the `init_bidsme_lab.py` file.
 
 ### Expected Structure of the `configuration/` Folder
 The `configuration/` folder should follow a structure similar to the one below : 
@@ -37,7 +37,7 @@ configuration/
 ```
 
 > This is the default recommended structure.
-> However, ot can be adjusted to your needs - just ensure you update the paths and logic accordingly in the `init_bidsme_lab.py` script, which loads these files when launching JupyterLab.
+> Just make sure to reflect those changes in the `init_bidsme_lab.py` script which dynamically loads the required files during container startup (especially in JupyterLab mode).
 
 ## Building & Launch with Docker Compose (Recommended) 
 1. **Clone this repository**:
@@ -54,39 +54,33 @@ export GROUP_ID=$(id -g)
 export BIDSME_VERSION=$(curl -s https://raw.githubusercontent.com/CyclotronResearchCentre/bidsme/dev/bidsme/version.txt)
 ```
 
-3. **Launch in the desired mode (`dev` or `prod`)** :
-This will :
-- Generate a docker-compose.generated.yaml file from the template
-- Automatically mount the correct folders for the chosen mode
-- Start BIDSme in Jupyterlab with the appropriate default notebook
-
-Make sure first that it is executable with the `chmod +x launc.sh` command
+3. **Choose your usage mode (`dev` or `prod`)** :
+**Run JupyterLab (recommended interface) :**
 
 ```bash
-./launch.sh dev
+docker compose -f dockercompose-dev.yaml run -p 8888:8888 bidsme lab
 # or
-./launch.sh prod
+docker compose -f dockercompose-prod.yaml run -p 8888:8888 bidsme lab
 ```
-JupyterLab will be accessible at:
-[http://localhost:8888](http://localhost:8888)
+Then open your browser and go to [http://localhost:8888](http://localhost:8888).
+The appropriate notebook will be auto-selected by `init_bidsme_lab.py`.
 
-The launched notebook is selected automatically based on the mode, via the `init_bidsme_lab.py` script (inside the build directory).
-
-## Alternative: Manual Use of Docker compose 
-
-You can still use Docker Compose directly by referencing the generated file:  
+**Run BIDSme `prepare` directly :**
 
 ```bash
-docker compose -f docker-compose.generated.yaml run -it bidsme
+docker compose -f dockercompose-dev.yaml run bidsme prepare <options>
+# or
+docker compose -f dockercompose-prod.yaml run bidsme prepare <options>
 ```
-Or to run a specific command like `prepare`:
+**Run BIDSme in CLI mode : **
 
 ```bash
-docker compose -f docker-compose.generated.yaml run bidsme prepare <options>
+docker compose -f dockercompose-dev.yaml run -it bidsme 
+# or
+docker compose -f dockercompose-prod.yaml run -it bidsme 
 ```
-However, make sure tu run `launch.sh` first to ensure `docker-compose.generated.yaml` is present and up to date.
 
-To clean up the containers :
+**To clean up the containers :**
 ```bash
 docker compose -f docker-compose.generated.yaml down
 
