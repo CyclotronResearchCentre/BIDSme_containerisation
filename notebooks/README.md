@@ -1,5 +1,5 @@
 
-# 📓 Notebooks Directory
+# Notebooks Directory
 
 This folder contains the Jupyter notebooks used for running and testing BIDSme workflows in both development and production modes.
 
