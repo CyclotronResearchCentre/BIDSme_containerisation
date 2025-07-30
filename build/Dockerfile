@@ -39,6 +39,11 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 RUN groupadd -g $GROUP_ID app && useradd -m -u $USER_ID -g app app
 
+# Copy only the two notebooks into the image in a read-only location
+COPY ./notebooks/bidsification_*.ipynb /opt/default_notebooks/
+RUN chown -R app:app /opt/default_notebooks
+
+
 # Create working and config directories with appropriate ownership
 RUN mkdir -p /mnt && chown app:app /mnt
 RUN mkdir -p /home/app/.jupyter && chown -R app:app /home/app
