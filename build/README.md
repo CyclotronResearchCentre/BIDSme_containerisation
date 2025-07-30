@@ -93,22 +93,20 @@ Replace `_prod` by `_dev` if needed.
 - Launch JupyterLab (http://localhost:8888)
 ```bash
 docker run \
-  -v "$PWD/rawdata_prod:/mnt/rawdata:ro" \
-  -v "$PWD/prepared_prod:/mnt/prepared" \
-  -v "$PWD/bidsified_prod:/mnt/bidsified" \
+  -v "$PWD/rawdata_prod:/mnt/rawdata_prod:ro" \
+  -v "$PWD/prepared_prod:/mnt/prepared_prod" \
+  -v "$PWD/bidsified_prod:/mnt/bidsified_prod" \
   -v "$PWD/configuration:/mnt/configuration" \
-  -v "$PWD/notebooks/bidsification_prod.ipynb:/mnt/bidsification_prod.ipynb"
   -p 8888:8888 \
   bidsme:<version> lab prod
 ```
 To use development mode instead: 
 ```bash
 docker run \
-  -v "$PWD/rawdata_dev:/mnt/rawdata:ro" \
-  -v "$PWD/prepared_dev:/mnt/prepared" \
-  -v "$PWD/bidsified_dev:/mnt/bidsified" \
+  -v "$PWD/rawdata_dev:/mnt/rawdata_dev:ro" \
+  -v "$PWD/prepared_dev:/mnt/prepared_dev" \
+  -v "$PWD/bidsified_dev:/mnt/bidsified_dev" \
   -v "$PWD/configuration:/mnt/configuration" \
-  -v "$PWD/notebooks/bidsification_dev.ipynb:/mnt/bidsification_dev.ipynb"
   -p 8888:8888 \
   bidsme:<version> lab dev
 ```
