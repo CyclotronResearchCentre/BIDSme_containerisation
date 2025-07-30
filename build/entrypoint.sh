@@ -48,20 +48,36 @@ elif [ "$1" = "bidsify" ]; then
 
 elif [ "$1" = "lab" ]; then
   shift
-  MODE=${1:-prod}
-  shift  # consume mode argument
 
-  # Set environment variable based on mode
-  if [ "$MODE" = "prod" ]; then
-    export BIDSME_PRODUCTION="true"
-  elif [ "$MODE" = "dev" ]; then
-    export BIDSME_PRODUCTION="false"
-  else
-    echo "[ERROR] Unknown lab mode: $MODE (use 'dev' or 'prod')"
-    exit 1
+  MODE=${1:-prod}
+  if [ -n "$1" ]; then
+    shift  # only shift if a mode was provided
   fi
 
-  echo "[INFO] Launching JupyterLab in '$MODE' mode"
+
+  NOTEBOOKS_SRC="/opt/default_notebooks"
+
+
+if [ "$MODE" = "prod" ]; then
+  export BIDSME_PRODUCTION="true"
+  NOTEBOOK_NAME="bidsification_prod.ipynb"
+elif [ "$MODE" = "dev" ]; then
+  export BIDSME_PRODUCTION="false"
+  NOTEBOOK_NAME="bidsification_dev.ipynb"
+else
+  echo "[ERROR] Unknown lab mode: $MODE (use 'dev' or 'prod')"
+  exit 1
+fi
+
+# Copy the appropriate notebook to the target location
+TARGET_NOTEBOOK="/mnt/${NOTEBOOK_NAME}"
+if [ ! -f "$TARGET_NOTEBOOK" ]; then
+  echo "[INFO] Copying default notebook to $TARGET_NOTEBOOK"
+  cp "${NOTEBOOKS_SRC}/${NOTEBOOK_NAME}" "$TARGET_NOTEBOOK"
+else
+  echo "[INFO] Notebook already exists at $TARGET_NOTEBOOK"
+fi
+
   export PYTHONSTARTUP="/etc/jupyter/init_bidsme.py"
 
   # Launch JupyterLab normally
