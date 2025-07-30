@@ -13,7 +13,7 @@ services:
     container_name: bidsme_app_prod      # Explicit name of the container
 
     restart: unless-stopped          # Restart policy: restart the container unless it is manually stopped
-
+  
     command: []                      # Empty command override: default ENTRYPOINT from Dockerfile will be used
 
     user: "${USER_ID}:${GROUP_ID}"   # Run the container as a specific user and group (for file permissions)
@@ -23,7 +23,6 @@ services:
       - GROUP_ID=${GROUP_ID}         # Pass group ID as an environment variable into the container
 
     volumes:
-    - ../notebooks/bidsification_prod.ipynb:/mnt/bidsification_prod.ipynb       # Mount the BIDSification notebook (read-write)
     - ../rawdata_prod:/mnt/rawdata_prod:ro   # Mount the 'rawdata' folder as read-only
     - ../prepared_prod:/mnt/prepared_prod    # Mount the 'prepared' folder (writeable)
     - ../bidsified_prod:/mnt/bidsified_prod   # Mount the 'bidsified' folder (writeable)
