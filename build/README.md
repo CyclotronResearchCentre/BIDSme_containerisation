@@ -8,6 +8,8 @@ This folder contains the Dockerfile and the entrypoint script used to build the 
 - `entrypoint.sh` — script that manages container entrypoint logic and command routing.  
 - `build.sh` — helper script to automatically fetch the current BIDSme version and build the Docker image with the correct tag.
 - `init_bidsme_lab.py` - initialization script automatically loaded when JupyterLab is launched, which prepares paths and settings depending on the mode (dev or prod).
+- `notebooks/` 
+Contains Jupyter notebooks used as interactive interfaces for data processing and analysis in both development and production modes. These notebooks are designed to be mounted inside the container to allow for live editing and persistence of changes.
 
 
 ## Getting Started
