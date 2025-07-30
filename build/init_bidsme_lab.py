@@ -1,8 +1,11 @@
 import os
 
+print("\n[INIT] → Launching init_bidsme_lab.py...\n")
+
+
+
 def generate_paths(production=True):
     mode = "production" if production else "development"
-    print(f"[INFO] Using {mode} dataset paths")
 
     base_path = "/mnt"
     suffix = "prod" if production else "dev"
@@ -10,6 +13,8 @@ def generate_paths(production=True):
     source = os.path.join(base_path, f"rawdata_{suffix}")
     prepared = os.path.join(base_path, f"prepared_{suffix}")
     bidsified = os.path.join(base_path, f"bidsified_{suffix}")
+    print(f"[INFO] Using {mode} dataset paths")
+    print(f"[INFO] Dataset paths:\n - source: {source}\n - prepared: {prepared}\n - bidsified: {bidsified}")
 
     # Vérifications
     for path in [source, prepared, bidsified]:
