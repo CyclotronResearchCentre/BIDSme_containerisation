@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "SPITZ"
+  given-names: "Bradley"
+title: "BIDSme_containerisation"
+version: 1.9.3
+date-released: 2025-08-05
+url: "https://github.com/CyclotronResearchCentre/BIDSme_containerisation"
