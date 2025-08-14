@@ -23,7 +23,7 @@ FROM python:${PYTHON_VERSION}
 
 # Install system dependencies again for runtime container
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        tcl tk libffi-dev zlib1g dcm2niix \
+        tcl tk libffi-dev zlib1g dcm2niix git\
     && rm -rf /var/lib/apt/lists/*
 
 # Copy all installed Python packages from the builder image
@@ -33,6 +33,7 @@ COPY --from=builder /usr/local /usr/local
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY init_bidsme_lab.py /etc/jupyter/init_bidsme.py
+
 
 # Set up non-root user with specified UID and GID
 ARG USER_ID=1000
