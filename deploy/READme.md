@@ -21,24 +21,24 @@ This folder contains the files necessary to orchestrate and run the BIDSme conta
 > Replace `<mode>` with either `dev` or `prod` depending on the use case.  
 > If you rename these folders, update the names accordingly in the compose files and in the `init_bidsme_lab.py` file.
 
-### Expected Structure of the `configuration/` Folder
-The `configuration/` folder should follow a structure similar to the one below : 
+#### Expected Structure of the `configuration/` Folder
+The `configuration/` folder contains BIDSme configuration files, plugins, and templates. When the container starts:
 
+  - If `mnt/configuration/` is empty, the container automatically clones the default template from GitLab : (BIDSme Configuration Template)[https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template]
+  - If `mnt/configuration/` already contains files, the container leaves them untouched.
+
+The recommended structure looks like this 
 ```pgsql
-configuration/
+configuration/   # Custom lists for participants, sessions, etc.
 ├── lists/
-├── map/
-│   └── bidsmap.yaml
-├── plugin/
-│   ├── bidsify_plugin.py
-│   └── prepare_plugin.py
-└── template/
-    └── participants.json
+├── map/         # Mapping configuration for BIDS conversion
+├── notebook/
+├── plugin/      # Optional BIDsme plugin
+└── template/    # Participant template for BIDSification
 ```
 
 > This is the default recommended structure.
-> Just make sure to reflect those changes in the `init_bidsme_lab.py` script which dynamically loads the required files during container startup (especially in JupyterLab mode).
-
+> However, ot can be adjusted to your needs - just ensure you update the paths and logic accordingly in the `init_bidsme_lab.py` script, which loads these files when launching JupyterLab.
 ## Building & Launch with Docker Compose (Recommended) 
 1. **Clone this repository**:
 
