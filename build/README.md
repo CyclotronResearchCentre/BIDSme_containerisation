@@ -28,18 +28,19 @@ You can rename these folders as you wish to fit your project structure.
 However, if you do so, make sure to update the corresponding folder paths accordingly in all relevant files in this repository — such as in the `docker-compose.yml`, volume mounts, `init_bidsme_lab.py` and any helper scripts — to ensure proper functionality.
 
 #### Expected Structure of the `configuration/` Folder
-The `configuration/` folder should follow a structure similar to the one below : 
+The `configuration/` folder contains BIDSme configuration files, plugins, and templates. When the container starts:
 
+  - If `mnt/configuration/` is empty, the container automatically clones the default template from GitLab : (BIDSme Configuration Template)[https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template]
+  - If `mnt/configuration/` already contains files, the container leaves them untouched.
+
+The recommended structure looks like this 
 ```pgsql
-configuration/
+configuration/   # Custom lists for participants, sessions, etc.
 ├── lists/
-├── map/
-│   └── bidsmap.yaml
-├── plugin/
-│   ├── bidsify_plugin.py
-│   └── prepare_plugin.py
-└── template/
-    └── participants.json
+├── map/         # Mapping configuration for BIDS conversion
+├── notebook/
+├── plugin/      # Optional BIDsme plugin
+└── template/    # Participant template for BIDSification
 ```
 
 > This is the default recommended structure.
