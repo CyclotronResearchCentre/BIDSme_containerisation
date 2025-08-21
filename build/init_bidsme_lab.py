@@ -16,11 +16,10 @@ def generate_paths(production=True):
     print(f"[INFO] Using {mode} dataset paths")
     print(f"[INFO] Dataset paths:\n - source: {source}\n - prepared: {prepared}\n - bidsified: {bidsified}")
 
-    # Vérifications
+    # Verifications
     for path in [source, prepared, bidsified]:
         assert os.path.isdir(path), f"[ERROR] Missing: {path}"
 
-    # Injection globale
     globals().update({
         'base_path': base_path,
         'source': source,
