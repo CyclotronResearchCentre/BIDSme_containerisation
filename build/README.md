@@ -166,6 +166,7 @@ This principle also applies to Jupyter Notebooks.
 ## Quick Tutorial : Running BIDsme in Docker 
 
 1. Launch the container
+   
 Run the container with your mounted data folders
 ```bash
 docker run -it \
@@ -177,6 +178,7 @@ docker run -it \
 ```
 
 2. Run BIDSme prepare
+   
 Inside the container (/mnt), run :
 ```bash
 bidsme prepare rawdata_prod/ prepared_prod/ -r nii=MRI
@@ -185,6 +187,7 @@ bidsme prepare rawdata_prod/ prepared_prod/ -r nii=MRI
 For more details on BIDSme usage, see the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
 
 3. Example logs
+   
 ```text
 main(80) - INFO -------------- START bidsme ----------------
 main(82) - INFO Mon Aug 25 10:59:02 2025
@@ -197,6 +200,7 @@ bidsme.prepare(295) - INFO Scanning folder rawdata_prod/001/s01512
 bidsme.prepare(58)  - INFO Processing: sub 'sub-001', ses 'ses-s01512' (28 files)
 ```
 4. Before / After example
+   
 **Rawdata**
 ```markdown
 001/
