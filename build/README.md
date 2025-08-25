@@ -30,7 +30,7 @@ However, if you do so, make sure to update the corresponding folder paths accord
 #### Expected Structure of the `configuration/` Folder
 The `configuration/` folder contains BIDSme configuration files, plugins, and templates. When the container starts:
 
-  - If `mnt/configuration/` is empty, the container automatically clones the default template from GitLab : (BIDSme Configuration Template)[https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template]
+  - If `mnt/configuration/` is empty, the container automatically clones the default template from GitLab : ((BIDSme Configuration Template)[https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template])
   - If `mnt/configuration/` already contains files, the container leaves them untouched.
 
 The recommended structure looks like this 
