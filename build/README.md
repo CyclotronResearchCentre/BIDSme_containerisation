@@ -45,18 +45,18 @@ configuration/   # Custom lists for participants, sessions, etc.
 
 `map`
 
-The map folder is expected to contain bidsmap.yaml bidsification map.
+The map folder is expected to contain `bidsmap.yaml` bidsification map.
 This file will be automatically created during map creation step.
 
 `plugin`
 
-The plugin directory is expected to contain plugins files prepare_plugin.py
-(for preparation step) and bidsify_plugin.py (for map and bidsification steps).
+The plugin directory is expected to contain plugins files `prepare_plugin.py`
+(for preparation step) and `bidsify_plugin.py` (for map and bidsification steps).
 
 `template`
 
-The template directory is expected to contain participants.json sidecar JSON
-file that used for generation of participants.tsv table.
+The template directory is expected to contain `participants.json` sidecar JSON
+file that used for generation of `participants.tsv `table.
 You can place there the JSON files for other tables (e.g. for tasks tsv files).
 
 `notebook`
