@@ -43,6 +43,27 @@ configuration/   # Custom lists for participants, sessions, etc.
 └── template/    # Participant template for BIDSification
 ```
 
+`map`
+
+The map folder is expected to contain bidsmap.yaml bidsification map.
+This file will be automatically created during map creation step.
+
+`plugin`
+
+The plugin directory is expected to contain plugins files prepare_plugin.py
+(for preparation step) and bidsify_plugin.py (for map and bidsification steps).
+
+`template`
+
+The template directory is expected to contain participants.json sidecar JSON
+file that used for generation of participants.tsv table.
+You can place there the JSON files for other tables (e.g. for tasks tsv files).
+
+`notebook`
+
+The notebook directory is expected to contain jupyter-lab notebooks, that runs
+bidsification.
+
 > This is the default recommended structure.
 > However, ot can be adjusted to your needs - just ensure you update the paths and logic accordingly in the `init_bidsme_lab.py` script, which loads these files when launching JupyterLab.
 
