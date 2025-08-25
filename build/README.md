@@ -163,6 +163,66 @@ The package will still be available.
 
 This principle also applies to Jupyter Notebooks.
 
+## Quick Tutorial : Running BIDsme in Docker 
+
+1. Launch the container
+Run the container with your mounted data folders
+```bash
+docker run -it \
+  -v "../rawdata_prod:/mnt/rawdata_prod:ro" \
+  -v "../prepared_prod:/mnt/prepared_prod" \
+  -v "../bidsified_prod:/mnt/bidsified_prod" \
+  -v "../configuration:/mnt/configuration" \
+  bidsme:1.9.5
+```
+
+2. Run BIDSme prepare
+Inside the container (/mnt), run :
+```bash
+bidsme prepare rawdata_prod/ prepared_prod/ -r nii=MRI
+```
+> The same approach applies to other BIDSme commands such as `process`, `map`, and `bidsify`.
+For more details on BIDSme usage, see the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
+
+3. Example logs
+```text
+main(80) - INFO -------------- START bidsme ----------------
+main(82) - INFO Mon Aug 25 10:59:02 2025
+main(83) - INFO version: 1.9.5
+bidsme.schema.BIDSschema(676) - INFO Schema version 1.0.13
+bidsme.prepare(192) - INFO -------------- Preparing data -------------
+bidsme.prepare(193) - INFO Source directory: rawdata_prod/
+bidsme.prepare(194) - INFO Destination directory: prepared_prod/
+bidsme.prepare(295) - INFO Scanning folder rawdata_prod/001/s01512
+bidsme.prepare(58)  - INFO Processing: sub 'sub-001', ses 'ses-s01512' (28 files)
+```
+4. Before / After example
+**Rawdata**
+```markdown
+001/
+ └── s01512/
+     ├── inp/
+     │   └── *.tsv
+     └── nii/
+         ├── f1512-0002-00001-000001-01.nii
+         ├── f1512-0002-00001-000001-01.json
+         └── ...
+```
+
+**Prepared**
+```lua
+sub-001/
+ └── ses-s01512/
+     └── MRI/
+         ├── 001-localizer/
+         │   ├── s1512-0001-*.nii
+         │   └── s1512-0001-*.json
+         ├── 002-cmrr_mbep2d_bold_mb2_invertpe/
+         │   ├── f1512-0002-*.nii
+         │   └── f1512-0002-*.json
+         └── ...
+```
+The raw files have been reorganized into BIDS-compliant folders, grouped by subject, sessions and modality.
 ## Documentation 
 
 For more details on BIDSme usage and features, visit the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
