@@ -28,3 +28,4 @@ Feel free to:
 
 - The default structure and templates come from the [`bidsme-template`](https://github.com/CyclotronResearchCentre/bidsme-template) repository.
 - If you rename or move the notebooks, update the corresponding Docker volume paths accordingly.
+- These notebooks may need adjustments or improvements before they work properly, notably by having the proper `participants.json` and including the bidsmap.yaml before having the container open. 
