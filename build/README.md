@@ -16,7 +16,7 @@ Contains Jupyter notebooks used as interactive interfaces for data processing an
 
 ### Prerequisites
 
-- Docker installed on your machine ([Get Docker](https://docs.docker.com/get-docker/))
+- Docker installed on your machine [Get Docker](https://docs.docker.com/get-docker/)
 - The working directory must contain the following folders - with a suffix specifying the chosen mode (`_dev`) or (`_prod`), whether you wish to wrok in production or development mode:
   - `rawdata_<mode>/` — original source files
   - `prepared_<mode>/` — files that are ready to be BIDSified
@@ -30,7 +30,7 @@ However, if you do so, make sure to update the corresponding folder paths accord
 #### Expected Structure of the `configuration/` Folder
 The `configuration/` folder contains BIDSme configuration files, plugins, and templates. When the container starts:
 
-  - If `mnt/configuration/` is empty, the container automatically clones the default template from GitLab : ([BIDSme Configuration Template](https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template))
+  - If `mnt/configuration/` is empty, the container automatically clones the default template from GitLab : [BIDSme Configuration Template](https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template)
   - If `mnt/configuration/` already contains files, the container leaves them untouched.
 
 The recommended structure looks like this 
@@ -144,9 +144,9 @@ This principle also applies to Jupyter Notebooks.
 
 ## Documentation 
 
-For more details on BIDSme usage and features, visit the ([BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme)).
+For more details on BIDSme usage and features, visit the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
 
-The default Jupyter notebooks used for both development and production modes are maintained separately and can be found in the ([bidsme-template](github.com/CyclotronResearchCentre/bidsme-template/tree/main/notebook)) repository.
+The default Jupyter notebooks used for both development and production modes are maintained separately and can be found in the [bidsme-template](github.com/CyclotronResearchCentre/bidsme-template/tree/main/notebook) repository.
 Feel free to adapt or replace them according to your needs.
 
 
