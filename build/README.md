@@ -146,7 +146,7 @@ This principle also applies to Jupyter Notebooks.
 
 For more details on BIDSme usage and features, visit the [BIDSme GitHub repository](https://github.com/CyclotronResearchCentre/BIDSme).
 
-The default Jupyter notebooks used for both development and production modes are maintained separately and can be found in the [bidsme-template]([github.com/CyclotronResearchCentre/bidsme-template/tree/main/notebook](https://gitlab.uliege.be/CyclotronResearchCentre/Public/bidstools/bidsme/bidsification-template)) repository.
+The default Jupyter notebooks used for both development and production modes are maintained separately and can be found in the bidsme template's gitlabs repository.
 Feel free to adapt or replace them according to your needs.
 
 
